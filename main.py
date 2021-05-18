@@ -6,7 +6,7 @@ from responses import html_response
 routes = web.RouteTableDef()
 
 @routes.get('/')
-async def hello(request):
+async def index(request):
     return html_response('index.html')
 
 
