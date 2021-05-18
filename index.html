@@ -34,7 +34,7 @@
         const socket = new WebSocket("ws://localhost:8080/ws");
 
         socket.onopen = () => {
-            statusText.innerText = "Соединение установлено ✔"
+            statusText.innerText = "Соединение установлено ✅"
             console.log("Соединение установлено.");
         };
 
@@ -42,7 +42,7 @@
             if (event.wasClean) {
                 console.log('Соединение закрыто чисто');
             } else {
-                console.log('Обрыв соединения 🔌');
+                console.log('Обрыв соединения');
             }
             statusText.innerText = 'Соединение закрыто ❌'
             console.log('Код: ' + event.code + ' причина: ' + event.reason);
