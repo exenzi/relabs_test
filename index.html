@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test App</title>
+    <style>
+        .container {
+            width: 500px;
+            margin: 30px auto;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WebSocker Test App</h1>
+        <p id="status"></p>
+        <form>
+            <input type="text" name="message" id="message">
+            <button type="submit" id="sendMessage">Отправить</button>
+        </form>
+        <ul id="messageList"></ul>
+    </div>
+
+    <script>
+        const messageList = document.getElementById("messageList");
+        const statusText = document.getElementById("status")
+        const msgField = document.getElementById("message")
+        const btnSend = document.getElementById("sendMessage")
+
+        statusText.innerText = "Соединение устанавливается ⏳"
+        const socket = new WebSocket("ws://localhost:8080/ws");
+
+        socket.onopen = () => {
+            statusText.innerText = "Соединение установлено ✔"
+            console.log("Соединение установлено.");
+        };
+
+        socket.onclose = () => {
+            if (event.wasClean) {
+                console.log('Соединение закрыто чисто');
+            } else {
+                console.log('Обрыв соединения 🔌');
+            }
+            statusText.innerText = 'Соединение закрыто ❌'
+            console.log('Код: ' + event.code + ' причина: ' + event.reason);
+        };
+
+        socket.onmessage = () => {
+            console.log("Ответ: " + event.data); 
+
+            data = JSON.parse(event.data);
+
+            let li = document.createElement("li");
+            li.innerText = data.counter + ' ' + data.msg;
+            messageList.appendChild(li);
+        };
+
+        socket.onerror = () => {
+            console.log("Ошибка " + error.message);
+            statusText.innerText = "Ошибка " + error.message
+        };
+
+        btnSend.addEventListener("click", (e) => {
+            e.preventDefault()
+            let text = msgField.value.trim()
+            if (text) {
+                let data = { msg: text }
+
+                socket.send(JSON.stringify(data));
+                msgField.value = ""
+            }
+        });
+    </script>
+</body>
+</html>
