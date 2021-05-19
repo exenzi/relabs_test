@@ -7,6 +7,7 @@ routes = web.RouteTableDef()
 
 @routes.get('/')
 async def index(request):
+    # отправка контента файла html
     return html_response('index.html')
 
 
