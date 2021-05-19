@@ -55,7 +55,7 @@
 
             let li = document.createElement("li");
             li.innerText = data.counter + ' ' + data.msg;
-            messageList.appendChild(li);
+            messageList.insertBefore(li, messageList.childNodes[0]);
         };
 
         socket.onerror = () => {
