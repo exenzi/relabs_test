@@ -38,7 +38,7 @@
             console.log("Соединение установлено.");
         };
 
-        socket.onclose = () => {
+        socket.onclose = (event) => {
             if (event.wasClean) {
                 console.log('Соединение закрыто чисто');
             } else {
@@ -48,7 +48,7 @@
             console.log('Код: ' + event.code + ' причина: ' + event.reason);
         };
 
-        socket.onmessage = () => {
+        socket.onmessage = (event) => {
             console.log("Ответ: " + event.data); 
 
             data = JSON.parse(event.data);
@@ -58,7 +58,7 @@
             messageList.insertBefore(li, messageList.childNodes[0]);
         };
 
-        socket.onerror = () => {
+        socket.onerror = (error) => {
             console.log("Ошибка " + error.message);
             statusText.innerText = "Ошибка " + error.message
         };
